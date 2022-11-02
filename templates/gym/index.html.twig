@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gym index{% endblock %}
+
+{% block body %}
+    <h1>Gym index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Address</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for gym in gyms %}
+            <tr>
+                <td>{{ gym.id }}</td>
+                <td>{{ gym.name }}</td>
+                <td>{{ gym.active ? 'Yes' : 'No' }}</td>
+                <td>{{ gym.address }}</td>
+                <td>
+                    <a href="{{ path('gym_show', {'id': gym.id}) }}">show</a>
+                    <a href="{{ path('gym_edit', {'id': gym.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('gym_new') }}">Create new</a>
+{% endblock %}

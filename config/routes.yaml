@@ -1,3 +1,121 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
+## access wihtout connexion ##
+### BECOME A FRANCHISEE ###
+become: 
+    path: /
+    controller: App\Controller\HomeController::become
+    methods:    GET
+
+### LOGIN ###
+login:
+    path: /login
+    controller: App\Controller\LoginController::login
+
+logout:
+    path: /logout
+    controller: App\Controller\LoginController::logout
+
+
+## access when login ##
+### HOME ###
+home:
+    path: /home
+    controller: App\Controller\HomeController::index
+    methods:    GET
+
+## access by ROLE_ADMIN only, except two routes as mentioned below ##
+### USERS & REGISTER ###
+#user_franchise_new: 
+#    path: /franchise/user/new
+#    controller: App\Controller\RegistrationController::registerFranchise
+#    methods:    GET|POST
+#
+#user_gym_new:
+#    path: /gym/user/new
+#    controller: App\Controller\RegistrationController::registerGym
+#    methods:    GET|POST
+
+user_new:
+    path: /user/new
+    controller: App\Controller\RegistrationController::register
+    methods:    GET|POST
+
+user_edit:
+    path: /user/{id}/edit
+    controller: App\Controller\UserController::edit
+    requirements:
+        id: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    methods:    GET|POST
+
+user_delete:
+    path: /user/{id}/delete
+    controller: App\Controller\UserController::delete
+    requirements:
+        id: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    methods:    POST
+
+
+### FRANCHISE ###
+franchise_index:
+    path: /franchise
+    controller: App\Controller\FranchiseController::index
+    methods:    GET
+
+franchise_new:
+    path: /franchise/new
+    controller: App\Controller\FranchiseController::new
+    methods:    GET|POST
+
+franchise_show: ## access by ROLE_FRANCHISE ##
+    path: /franchise/{id}
+    controller: App\Controller\FranchiseController::show
+    requirements:
+        id: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    methods:    GET
+
+franchise_edit:
+    path: /franchise/{id}/edit
+    controller: App\Controller\FranchiseController::edit
+    requirements:
+        id: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    methods:    GET|POST
+
+
+### GYM ###
+gym_index:
+    path: /gym
+    controller: App\Controller\GymController::index
+    methods:    GET
+
+gym_new:
+    path: /gym/new
+    controller: App\Controller\GymController::new
+    methods:    GET|POST
+
+gym_show: ## access by ROLE_GYM ##
+    path: /gym/{id}
+    controller: App\Controller\GymController::show
+    requirements:
+        id: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    methods:    GET
+
+gym_edit:
+    path: /gym/{id}/edit
+    controller: App\Controller\GymController::edit
+    requirements:
+        id: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    methods:    GET|POST
+
+
+### CONTRACT ###
+contract_new:
+    path: /contract/new
+    controller: App\Controller\ContractController::new
+    methods:    GET|POST
+
+contract_edit:
+    path: /contract/{id}/edit
+    controller: App\Controller\ContractController::edit
+    requirements:
+        id: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    methods:    GET|POST
+
