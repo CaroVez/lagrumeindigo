@@ -43,6 +43,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'csrf_field_name' => '_token',
         ]);
     }
 }

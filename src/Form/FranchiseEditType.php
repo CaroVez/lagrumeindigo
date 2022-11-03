@@ -29,6 +29,7 @@ class FranchiseEditType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Franchise::class,
+            'csrf_field_name' => '_token',
         ]);
     }
 }

@@ -117,7 +117,9 @@ class UserController extends AbstractController
         // access only by ROLE_ADMIN //
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Vous n\'avez pas les droits d\'administrateur pour accéder à cette page');
 
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        $submittedToken = $request->request->get('_token');
+
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $submittedToken)) {
             $userRepository->remove($user, true);
         }
 

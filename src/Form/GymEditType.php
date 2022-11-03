@@ -34,6 +34,7 @@ class GymEditType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Gym::class,
+            'csrf_field_name' => '_token',
         ]);
     }
 }
