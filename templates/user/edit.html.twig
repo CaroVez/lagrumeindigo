@@ -2,8 +2,7 @@
 
 {% block metaDescription %}Mise à jour des informations.{% endblock %}
 {% block title %}mise à jour - {% endblock %}
-{% block franchiseActive %}active{% endblock %}
-{% block gymActive %}active{% endblock %}
+{% block welcomeActive %}active{% endblock %}
 {% block panelPage %}home{% endblock %}
 
 {% block content %}
@@ -13,12 +12,25 @@
     <div class="formtype">
 
         {% if user.franchise|default %}
-            {# back button, if director #}
+            {# back button for franchise, if director #}
             <a title="retour" href="{{ path('franchise_show', {'id': user.franchise.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/></svg></a>
-        {% else %}
-            {# back button, if manager #}
-            <a title="retour" href="{{ path('franchise_show', {'id': user.gym.franchise.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/></svg></a>
-        {% endif %} 
+        {% endif %}
+        
+        {% for role in app.user.roles %}
+            {% if role == 'ROLE_ADMIN' %}
+                {% if user.gym|default %}
+                    {# back button for franchise, if admin #}
+                    <a title="retour" href="{{ path('franchise_show', {'id': user.gym.franchise.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/></svg></a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        
+        {% for role in app.user.roles %}
+            {% if role == 'ROLE_GYM' %}
+                {# back button for gym, if manager #}
+                <a title="retour" href="{{ path('gym_show', {'id': user.gym.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/></svg></a>
+            {% endif %}
+        {% endfor %}
 
         {# form title #}
         <div class="title-edit">

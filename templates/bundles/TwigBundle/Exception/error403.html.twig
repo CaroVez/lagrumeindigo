@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block metaDescription %}L'agrume indigo {% endblock %}
+{% block title %}erreur - {% endblock %}
+{% block panelPage %}home{% endblock %}
+
+{% block content %}
+
+<div class="body-index">
+
+    <div class="page-title">
+        <h1>Oups ! Administrateur seulement !</h1>
+
+        <p>Vous n'avez pas les droits d'administrateur pour accéder à cette page.<br>
+        <a href="{{ path('home') }}">Retour à la page d'accueil</a></p>
+
+    </div>
+
+</div>
+
+{% endblock %}

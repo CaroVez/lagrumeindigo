@@ -10,7 +10,15 @@ use App\Repository\ContractRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 
+/**
+ * Require ROLE_ADMIN for all the actions of this controller
+ */
+#[IsGranted('ROLE_ADMIN', null, 'Vous n\'avez pas les droits d\'administrateur pour accéder à cette page')]
 class ContractController extends AbstractController
 {
     // ####################### INDEX CONTRACT ####################### //
@@ -23,7 +31,7 @@ class ContractController extends AbstractController
     }
 
     // ####################### NEW CONTRACT for FRANCHISE ####################### //
-    public function newFranchise(Request $request, ContractRepository $contractRepository): Response
+    public function newFranchise(Request $request, ContractRepository $contractRepository, MailerInterface $mailer): Response
     {
         // new FORM //
         $contract = new Contract();
@@ -32,6 +40,15 @@ class ContractController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contractRepository->save($contract, true);
+
+            // SENDING EMAIL after submit
+            $email = (new TemplatedEmail())
+                ->from(new Address('tech@lagrumeindigo.com', 'l\'agrume indigo'))
+                ->to(new Address($contract->getFranchise()->getUser()->getEmail(), $contract->getFranchise()->getUser()->getName()))
+                ->subject('Bienvenue dans le groupe de l\'agrume indigo !')
+                ->htmlTemplate('email/welcomeFranchise.html.twig');
+
+            //$mailer->send($email); //deactivated because the email address are not real
 
             // REDIRECT after submit //
             return $this->redirectToRoute('franchise_index', [], Response::HTTP_SEE_OTHER);
@@ -45,7 +62,7 @@ class ContractController extends AbstractController
     }
 
         // ####################### NEW CONTRACT for GYM ####################### //
-        public function newGym(Request $request, ContractRepository $contractRepository): Response
+        public function newGym(Request $request, ContractRepository $contractRepository, MailerInterface $mailer): Response
         {
             // new FORM //
             $contract = new Contract();
@@ -55,8 +72,18 @@ class ContractController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $contractRepository->save($contract, true);
     
+            // SENDING EMAIL after submit
+            $email = (new TemplatedEmail())
+                ->from(new Address('tech@lagrumeindigo.com', 'l\'agrume indigo'))
+                ->to(new Address($contract->getGym()->getUser()->getEmail(), $contract->getGym()->getUser()->getName()))
+                ->cc(new Address($contract->getGym()->getFranchise()->getUser()->getEmail(), $contract->getGym()->getFranchise()->getUser()->getName()))
+                ->subject('Bienvenue dans le groupe de l\'agrume indigo !')
+                ->htmlTemplate('email/welcomeGym.html.twig');
+
+            //$mailer->send($email); //deactivated because the email address are not real
+
                 // REDIRECT after submit //
-                return $this->redirectToRoute('franchise_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('gym_index', [], Response::HTTP_SEE_OTHER);
             }
     
             // VIEW //
@@ -65,15 +92,6 @@ class ContractController extends AbstractController
                 'form' => $form,
             ]);
         }
-
-    // ####################### SHOW CONTRACT ####################### //
-    public function show(Contract $contract): Response
-    {
-        // VIEW //
-        return $this->render('contract/show.html.twig', [
-            'contract' => $contract,
-        ]);
-    }
 
     // ####################### EDIT CONTRACT ####################### //
     public function edit(Request $request, Contract $contract, ContractRepository $contractRepository): Response
@@ -85,10 +103,39 @@ class ContractController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contractRepository->save($contract, true);
 
-            // REDIRECT after submit //
-            return $this->redirectToRoute('franchise_show', [
-                'id' => $contract->getFranchise()->getId()
-            ], Response::HTTP_SEE_OTHER);
+            if ($contract->getFranchise() !== null) {
+                // SENDING EMAIL after submit, if director
+                $email = (new TemplatedEmail())
+                    ->from(new Address('tech@lagrumeindigo.com', 'l\'agrume indigo'))
+                    ->to(new Address($contract->getFranchise()->getUser()->getEmail(), $contract->getFranchise()->getUser()->getName()))
+                    ->subject('Modification de votre contrat - l\'agrume indigo !')
+                    ->htmlTemplate('email/edit.html.twig');
+
+                //$mailer->send($email); //deactivated because the email address are not real
+
+                // REDIRECT after submit //
+                return $this->redirectToRoute('franchise_show', [
+                    'id' => $contract->getFranchise()->getId()
+                ], Response::HTTP_SEE_OTHER);
+
+            } else {
+                // SENDING EMAIL after submit, if manager
+                $email = (new TemplatedEmail())
+                    ->from(new Address('tech@lagrumeindigo.com', 'l\'agrume indigo'))
+                    ->to(new Address($contract->getGym()->getUser()->getEmail(), $contract->getGym()->getUser()->getName()))
+                    ->cc(new Address($contract->getGym()->getFranchise()->getUser()->getEmail(), $contract->getGym()->getFranchise()->getUser()->getName()))
+                    ->subject('Modification de votre contrat - l\'agrume indigo !')
+                    ->htmlTemplate('email/edit.html.twig');
+
+                //$mailer->send($email); //deactivated because the email address are not real
+
+                // REDIRECT after submit //
+                return $this->redirectToRoute('franchise_show', [
+                    'id' => $contract->getGym()->getFranchise()->getId()
+                ], Response::HTTP_SEE_OTHER);
+            }
+            
+
         }
 
         // VIEW //

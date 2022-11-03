@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block metaDescription %}L'agrume indigo {% endblock %}
+{% block title %}erreur - {% endblock %}
+{% block panelPage %}home{% endblock %}
+
+{% block content %}
+
+<div class="body-index">
+
+    <div class="page-title">
+      <h1>Oups ! La page n'existe pas !</h1>    
+
+      <p>La page demandée n'existe pas, veuillez vérifier l'adresse.<br>
+      <a href="{{ path('home') }}">Retour à la page d'accueil</a></p>
+
+    </div>
+
+</div>
+
+{% endblock %}

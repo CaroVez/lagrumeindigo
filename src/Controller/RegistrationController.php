@@ -11,7 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+/**
+ * Require ROLE_ADMIN for all the actions of this controller
+ */
+#[IsGranted('ROLE_ADMIN', null, 'Vous n\'avez pas les droits d\'administrateur pour accéder à cette page')]
 class RegistrationController extends AbstractController
 {
     // ####################### NEW ADMIN USER ####################### //
@@ -33,7 +38,6 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             // REDIRECT after submit //
             return $this->redirectToRoute('home');
@@ -64,7 +68,6 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             // REDIRECT after submit //
             return $this->redirectToRoute('franchise_new');
@@ -95,7 +98,6 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             // REDIRECT after submit //
             return $this->redirectToRoute('gym_new');

@@ -51,7 +51,7 @@
                     {# menu when login #}
                     {% if app.user %}
                         <li class="welcome">
-                            <span>Bienvenue {{ app.user.name }} !</span>
+                            <span>Bienvenue <a title="modifier mes informations" class="menu-link {% block welcomeActive %}{% endblock %}" href="{{ path('user_edit', {'id': app.user.id}) }}">{{ app.user.name }} !</a></span> 
                         </li>
                     {% endif %}
                     {% if app.user %}

@@ -39,29 +39,29 @@
         {# tools for the manager #}
         <div class="contract-gym">
             <ul class="showgym-tools">
-                <li class="contract-item {{ gym.contractGym.sendNewsletter ? 'active' : 'notavailable' }}">
+                <li class="contract-item {{ gym.contract.sendNewsletter ? 'active' : 'notavailable' }}">
                     <img src="{{asset('assets/images/newsletter.jpg')}}" alt="image">
-                    <div class="overlay">{{ gym.contractGym.sendNewsletter ? '<a href="#">envoyer des<br>bulletins de<br>nouvelles</a>' : 'envoyer des<br>bulletins de<br>nouvelles' }}<div>
+                    <div class="overlay">{{ gym.contract.sendNewsletter ? '<a href="#">envoyer des<br>bulletins de<br>nouvelles</a>' : 'envoyer des<br>bulletins de<br>nouvelles' }}<div>
                 </li>
-                <li class="contract-item {{ gym.contractGym.teamPlanning ? 'active' : 'notavailable' }}">
+                <li class="contract-item {{ gym.contract.teamPlanning ? 'active' : 'notavailable' }}">
                     <img src="{{asset('assets/images/calendar.jpg')}}" alt="image">
-                    <div class="overlay">{{ gym.contractGym.teamPlanning ? '<a href="#">gestion des<br>horaires<br>d\'équipe</a>' : 'gestion des<br>horaires<br>d\'équipe' }}<div>
+                    <div class="overlay">{{ gym.contract.teamPlanning ? '<a href="#">gestion des<br>horaires<br>d\'équipe</a>' : 'gestion des<br>horaires<br>d\'équipe' }}<div>
                 </li>
-                <li class="contract-item {{ gym.contractGym.sellDrinks ? 'active' : 'notavailable' }}">                    
+                <li class="contract-item {{ gym.contract.sellDrinks ? 'active' : 'notavailable' }}">                    
                     <img src="{{asset('assets/images/drinks.jpg')}}" alt="image">
-                    <div class="overlay">{{ gym.contractGym.sellDrinks ? '<a href="#">vendre des<br>boissons</a>' : 'vendre des<br>boissons' }}<div>
+                    <div class="overlay">{{ gym.contract.sellDrinks ? '<a href="#">vendre des<br>boissons</a>' : 'vendre des<br>boissons' }}<div>
                 </li>
-                <li class="contract-item {{ gym.contractGym.promotion ? 'active' : 'notavailable' }}">
+                <li class="contract-item {{ gym.contract.promotion ? 'active' : 'notavailable' }}">
                     <img src="{{asset('assets/images/promotion.jpg')}}" alt="image">
-                    <div class="overlay">{{ gym.contractGym.promotion ? '<a href="#">promotion<br>de salle</a>' : 'promotion<br>de salle' }}<div>
+                    <div class="overlay">{{ gym.contract.promotion ? '<a href="#">promotion<br>de salle</a>' : 'promotion<br>de salle' }}<div>
                 </li>
-                <li class="contract-item {{ gym.contractGym.paymentSchedules ? 'active' : 'notavailable' }}">
+                <li class="contract-item {{ gym.contract.paymentSchedules ? 'active' : 'notavailable' }}">
                     <img src="{{asset('assets/images/payments.jpg')}}" alt="image">
-                    <div class="overlay">{{ gym.contractGym.paymentSchedules ? '<a href="#">calendrier de<br>paiements</a>' : 'calendrier de<br>paiements' }}<div>
+                    <div class="overlay">{{ gym.contract.paymentSchedules ? '<a href="#">calendrier de<br>paiements</a>' : 'calendrier de<br>paiements' }}<div>
                 </li>
-                <li class="contract-item {{ gym.contractGym.statistics ? 'active' : 'notavailable' }}">
+                <li class="contract-item {{ gym.contract.statistics ? 'active' : 'notavailable' }}">
                     <img src="{{asset('assets/images/statistics.jpg')}}" alt="image">
-                    <div class="overlay">{{ gym.contractGym.statistics ? '<a href="#">statistiques des<br>utilisateurs</a>' : 'statistiques des<br>utilisateurs' }}<div>
+                    <div class="overlay">{{ gym.contract.statistics ? '<a href="#">statistiques des<br>utilisateurs</a>' : 'statistiques des<br>utilisateurs' }}<div>
                 </li>
             </ul>
         </div>
@@ -75,7 +75,7 @@
             {% if app.user.gym|default %} 
             {# title, if manager #}
             <div class="title">
-                <h2>mes informations</h2>
+                <h2>mes informations <a title="modifier mes informations" class="side-menu-link" href="{{ path('user_edit', {'id': gym.user.id}) }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg></a></h2>
             </div>
             {% else %}
             {# title, if admin #}
@@ -94,7 +94,7 @@
                     <tr>                   
                         <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/></svg></th>
                         {% if gym.user.name|default %} 
-                            <td>{{ gym.user.name }}, {{ gym.user.role.get(0).name }}</td>
+                            <td>{{ gym.user.name }}, Gérant(e)</td>
                         {% else %}
                             <td>aucun nom enregistré</td>
                         {% endif %}
@@ -143,7 +143,7 @@
                     <tr>                   
                         <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/></svg></th>
                         {% if gym.franchise.user.name|default %} 
-                            <td>{{ gym.franchise.user.name }}, {{ gym.franchise.user.role.get(0).name }}</td>
+                            <td>{{ gym.franchise.user.name }}, Directeur(rice)</td>
                         {% else %}
                             <td>aucun nom enregistré</td>
                         {% endif %}

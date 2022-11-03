@@ -1,0 +1,46 @@
+{% apply inline_css %}
+
+<style>
+h1 {
+  font-size: 1.75rem;
+  color: #002B5B;
+}
+h2 {
+  font-size: 1.5rem;
+  color: #002B5B;
+}
+p span, h2 span {
+  color: #EC994B;
+}
+a {
+  color: #000000;
+  text-decoration: none;
+}
+a:focus {
+  color: #EC994B;
+  font-weight: bold;
+}
+
+</style>
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+
+    <h1>bienvenue dans le groupe de <span>l'agrume indigo</span></h1>
+
+    <p>Un membre de l'équipe vous contactera sous peu pour vous remettre vos identifian afin de vous <a href="https://lagrumeindigo.herokuapp.com/login"><span>connectez</span></a> à votre compte !</p>
+
+    <br>
+    <p>---</p>
+    <h2>l'équipe de <a href="mailto:tech@lagrumeindigo.com"><span>l'agrume indigo</span></a></h2>
+
+  </body>
+</html>
+
+{% endapply %}

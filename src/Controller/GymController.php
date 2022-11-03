@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 
 class GymController extends AbstractController
 {
@@ -23,6 +26,9 @@ class GymController extends AbstractController
     // ####################### INDEX GYM ####################### //
     public function index(GymRepository $gymRepository): Response
     {
+        // access only by ROLE_ADMIN //
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Vous n\'avez pas les droits d\'administrateur pour accéder à cette page');
+
         // VIEW //
         return $this->render('gym/index.html.twig', [
             'gyms' => $gymRepository->findAll(),
@@ -32,6 +38,9 @@ class GymController extends AbstractController
     // ####################### NEW GYM ####################### //
     public function new(Request $request, GymRepository $gymRepository): Response
     {
+        // access only by ROLE_ADMIN //
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Vous n\'avez pas les droits d\'administrateur pour accéder à cette page');
+
         // new FORM //
         $gym = new Gym();
         $form = $this->createForm(GymType::class, $gym);
@@ -54,11 +63,15 @@ class GymController extends AbstractController
     // ####################### SHOW GYM ####################### //
     public function show(Gym $gym): Response
     {
-        $userGym = $this->security->getUser()->getGym(); 
+        // access by ROLE_FRANCHISE //
+        if ($this->denyAccessUnlessGranted('ROLE_GYM', null, 'Vous n\'avez pas les droits d\'un gérant pour accéder à cette page') ) {
+            // access only HIS OWN page //
+            $userGym = $this->security->getUser()->getGym(); 
 
-        if ($userGym !== null) {
-            if ($gym->getUser() !== $this->getUser()) {
-                throw $this->createAccessDeniedException('accès interdit : cette salle de sport n\'est pas reliée à votre compte');
+            if ($userGym !== null) {
+                if ($gym->getUser() !== $this->getUser()) {
+                    throw $this->createAccessDeniedException('accès interdit : cette salle de sport n\'est pas reliée à votre compte');
+                }
             }
         }
 
@@ -69,14 +82,27 @@ class GymController extends AbstractController
     }
 
     // ####################### EDIT GYM ####################### //
-    public function edit(Request $request, Gym $gym, GymRepository $gymRepository): Response
+    public function edit(Request $request, Gym $gym, GymRepository $gymRepository, MailerInterface $mailer): Response
     {
+        // access only by ROLE_ADMIN //
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Vous n\'avez pas les droits d\'administrateur pour accéder à cette page');
+
         // edit FORM //
         $form = $this->createForm(GymEditType::class, $gym);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $gymRepository->save($gym, true);
+
+        // SENDING EMAIL after submit, if director
+        $email = (new TemplatedEmail())
+            ->from(new Address('tech@lagrumeindigo.com', 'l\'agrume indigo'))
+            ->to(new Address($gym->getUser()->getEmail(), $gym->getUser()->getName()))
+            ->cc(new Address($gym->getFranchise()->getUser()->getEmail(), $gym->getFranchise()->getUser()->getName()))
+            ->subject('Modification de votre salle de sport - l\'agrume indigo !')
+            ->htmlTemplate('email/edit.html.twig');
+
+        //$mailer->send($email); //deactivated because the email address are not real
 
             // REDIRECT after submit //
             return $this->redirectToRoute('franchise_show', [

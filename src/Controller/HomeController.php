@@ -16,6 +16,9 @@ class HomeController extends AbstractController
     
     public function index(): Response
     {
+        // access only while connected //
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, 'Vous devez être connecté pour accéder à cette page');
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
