@@ -8,11 +8,15 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ContractType extends AbstractType
+class ContractFranchiseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('franchise', null, [
+                'label' => 'la nouvelle franchise créée'
+            ])
+
             ->add('sendNewsletter', CheckboxType::class, [
                 'label' => 'envoyer des bulletins de nouvelles',
                 'required' => false

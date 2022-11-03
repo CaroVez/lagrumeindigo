@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Contract;
 use App\Form\ContractType;
+use App\Form\ContractFranchiseType;
+use App\Form\ContractGymType;
 use App\Repository\ContractRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +22,12 @@ class ContractController extends AbstractController
         ]);
     }
 
-    // ####################### NEW CONTRACT ####################### //
-    public function new(Request $request, ContractRepository $contractRepository): Response
+    // ####################### NEW CONTRACT for FRANCHISE ####################### //
+    public function newFranchise(Request $request, ContractRepository $contractRepository): Response
     {
         // new FORM //
         $contract = new Contract();
-        $form = $this->createForm(ContractType::class, $contract);
+        $form = $this->createForm(ContractFranchiseType::class, $contract);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -36,11 +38,33 @@ class ContractController extends AbstractController
         }
 
         // VIEW //
-        return $this->renderForm('contract/new.html.twig', [
+        return $this->renderForm('contract/newFranchise.html.twig', [
             'contract' => $contract,
             'form' => $form,
         ]);
     }
+
+        // ####################### NEW CONTRACT for GYM ####################### //
+        public function newGym(Request $request, ContractRepository $contractRepository): Response
+        {
+            // new FORM //
+            $contract = new Contract();
+            $form = $this->createForm(ContractGymType::class, $contract);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                $contractRepository->save($contract, true);
+    
+                // REDIRECT after submit //
+                return $this->redirectToRoute('franchise_index', [], Response::HTTP_SEE_OTHER);
+            }
+    
+            // VIEW //
+            return $this->renderForm('contract/newGym.html.twig', [
+                'contract' => $contract,
+                'form' => $form,
+            ]);
+        }
 
     // ####################### SHOW CONTRACT ####################### //
     public function show(Contract $contract): Response
@@ -62,7 +86,9 @@ class ContractController extends AbstractController
             $contractRepository->save($contract, true);
 
             // REDIRECT after submit //
-            return $this->redirectToRoute('franchise_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('franchise_show', [
+                'id' => $contract->getFranchise()->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         // VIEW //
@@ -72,14 +98,4 @@ class ContractController extends AbstractController
         ]);
     }
 
-    // ####################### DELETE CONTRACT ####################### //
-    public function delete(Request $request, Contract $contract, ContractRepository $contractRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$contract->getId(), $request->request->get('_token'))) {
-            $contractRepository->remove($contract, true);
-        }
-
-        // REDIRECT after submit //
-        return $this->redirectToRoute('franchise_index', [], Response::HTTP_SEE_OTHER);
-    }
 }

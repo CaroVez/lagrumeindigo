@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FranchiseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
@@ -13,7 +15,7 @@ class Franchise
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?int $id = null;
+    private $id;
 
     #[ORM\Column(length: 60)]
     private ?string $name = null;
@@ -27,6 +29,14 @@ class Franchise
 
     #[ORM\OneToOne(mappedBy: 'franchise', cascade: ['persist', 'remove'])]
     private ?Contract $contract = null;
+
+    #[ORM\OneToMany(mappedBy: 'franchise', targetEntity: Gym::class, orphanRemoval: true)]
+    private Collection $gym;
+
+    public function __construct()
+    {
+        $this->gym = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -84,5 +94,40 @@ class Franchise
         $this->contract = $contract;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Gym>
+     */
+    public function getgym(): Collection
+    {
+        return $this->gym;
+    }
+
+    public function addGym(Gym $gym): self
+    {
+        if (!$this->gym->contains($gym)) {
+            $this->gym->add($gym);
+            $gym->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGym(Gym $gym): self
+    {
+        if ($this->gym->removeElement($gym)) {
+            // set the owning side to null (unless already changed)
+            if ($gym->getFranchise() === $this) {
+                $gym->setFranchise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

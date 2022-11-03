@@ -1,30 +1,326 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Franchise{% endblock %}
+{% block metaDescription %}Informations concernant ma franchise.{% endblock %}
+{% block title %}{{ franchise.name }} - {% endblock %}
+{% block myfranchiseActive %}active{% endblock %}
+{% block franchiseActive %}active{% endblock %}
+{% block panelPage %}home{% endblock %}
 
-{% block body %}
-    <h1>Franchise</h1>
+{% block content %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ franchise.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ franchise.name }}</td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td>{{ franchise.active ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% if app.user.franchise|default %} 
+{# title, if director #}
+<div class="page-title">
+    <h1>{% if is_granted('ROLE_ADMIN') %}<a title="retour à la liste de franchises" href="{{ path('franchise_index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/></svg></a>{% endif %} ma franchise <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/><path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/></svg> <span>{{ franchise.name }}</span></h1>
+</div>
+{% else %}
+{# title, if admin #}
+<div class="page-title">
+    <h1>{% if is_granted('ROLE_ADMIN') %}<a title="retour à la liste de franchises" href="{{ path('franchise_index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/></svg></a>{% endif %} franchise <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/><path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/></svg> <span>{{ franchise.name }}</span></h1>
+</div>
+{% endif %}
 
-    <a href="{{ path('franchise_index') }}">back to list</a>
+<div class="side-menu_body">
 
-    <a href="{{ path('franchise_edit', {'id': franchise.id}) }}">edit</a>
+    {# menu with buttons, for admin #}
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="side-menu">
+        
+        <div class="title">
+            <h2>menu</h2>
+        </div>
+        <ul>
+            <li class="side-menu-item"><a title="modifier les informations de la franchise {{ franchise.name }}" class="side-menu-link" href="{{ path('franchise_edit', {'id': franchise.id}) }}"><button class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg> franchise</button></a></li>
+            <li class="side-menu-item"><a title="modifier les informations du directeur(rice)" class="side-menu-link" href="{{ path('user_edit', {'id': franchise.user.id}) }}"><button class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg> directeur(rice)</button></a></li>
+            <li class="side-menu-item"><a title="modifier les options du contrat" class="side-menu-link" href="{{ path('contract_edit', {'id': franchise.contract.id}) }}"><button class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg> contrat</button></a></li>
+            
+            {# delete button with csrf_token #}
+            <li class="side-menu-item">
+                <form title="supprimer la franchise {{ franchise.name }}" method="post" action="{{ path('user_delete', {'id': franchise.user.id}) }}" onsubmit="return confirm('Êtes-vous certain de vouloir supprimer la franchise {{ franchise.name }} ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ franchise.user.id) }}">
+                    <button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/></svg> franchise
+                    </button>
+                </form>
+            </li>
 
-    {{ include('franchise/_delete_form.html.twig') }}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="body-franchise_admin">
+    {% else %}
+    <div class="body-franchise">
+    {% endif %}
+
+    <div class="contract">
+        {% if app.user.franchise|default %} 
+        {# title, if director #}
+        <div class="title">
+            <h2>mes outils en ligne</h2>
+        </div>
+        
+        {# tools for the director #}
+        <div class="contract-franchise">
+            <ul class="showfranchise-tools">
+                <li class="contract-franchise-item {{ franchise.contract.sendNewsletter ? 'active' : 'notavailable' }}">                
+                    <img src="{{asset('assets/images/newsletter.jpg')}}" alt="image">
+                    <div class="overlay">{{ franchise.contract.sendNewsletter ? '<a href="#">envoyer des<br>bulletins de<br>nouvelles</a>' : 'envoyer des<br>bulletins de<br>nouvelles</a>' }}<div>                
+                </li>
+                <li class="contract-franchise-item {{ franchise.contract.teamPlanning ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/calendar.jpg')}}" alt="image">
+                    <div class="overlay">{{ franchise.contract.teamPlanning ? '<a href="#">gestion des<br>horaires<br>d\'équipe</a>' : 'gestion des<br>horaires<br>d\'équipe' }}<div>
+                </li>
+
+                <li class="contract-franchise-item {{ franchise.contract.sellDrinks ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/drinks.jpg')}}" alt="image">
+                    <div class="overlay">{{ franchise.contract.sellDrinks ? '<a href="#">vendre des<br>boissons</a>' : 'vendre des<br>boissons' }}<div>
+                </li>
+
+                <li class="contract-franchise-item {{ franchise.contract.promotion ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/promotion.jpg')}}" alt="image">
+                    <div class="overlay">{{ franchise.contract.promotion ? '<a href="#">promotion<br>de salle</a>' : 'promotion<br>de salle' }}<div>
+                </li>
+
+                <li class="contract-franchise-item {{ franchise.contract.paymentSchedules ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/payments.jpg')}}" alt="image">
+                    <div class="overlay">{{ franchise.contract.paymentSchedules ? '<a href="#">calendrier de<br>paiements</a>' : 'calendrier de<br>paiements' }}<div>
+                </li>
+
+                <li class="contract-franchise-item {{ franchise.contract.statistics ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/statistics.jpg')}}" alt="image">
+                    <div class="overlay">{{ franchise.contract.statistics ? '<a href="#">statistiques des<br>utilisateurs</a>' : 'statistiques des<br>utilisateurs' }}<div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="more"> 
+            <p>Contactez <span><a href="mailto:info@lagrumeindigo.com">l'agrume indigo</a></span> pour apporter des modifications à votre compte !</p>
+        </div>
+        {% else %}
+        {# title, if admin #}
+        <div class="title">
+            <h2>outils en ligne</h2>
+        </div>
+
+        {# tools, if admin #}
+        <div class="contract-franchise">
+            <ul class="showfranchisegym-tools">
+                <li class="contract-franchise-item {{ franchise.contract.sendNewsletter ? 'active' : 'notavailable' }}">
+                    <div class="overlay">envoyer des bulletins de nouvelles<div>
+                </li>
+                <li class="contract-franchise-item {{ franchise.contract.teamPlanning ? 'active' : 'notavailable' }}">
+                    <div class="overlay">gestion des horaires d'équipe<div>
+                </li>
+                <li class="contract-franchise-item {{ franchise.contract.sellDrinks ? 'active' : 'notavailable' }}">
+                    <div class="overlay">vendre des boissons<div>
+                </li>
+            </ul>
+            <ul class="showfranchisegym-tools">
+                <li class="contract-franchise-item {{ franchise.contract.promotion ? 'active' : 'notavailable' }}">
+                    <div class="overlay">promotion de salle<div>
+                </li>
+                <li class="contract-franchise-item {{ franchise.contract.paymentSchedules ? 'active' : 'notavailable' }}">
+                    <div class="overlay">calendrier de paiements<div>
+                </li>
+                <li class="contract-franchise-item {{ franchise.contract.statistics ? 'active' : 'notavailable' }}">
+                    <div class="overlay">statistiques des utilisateurs<div>
+                </li>
+            </ul>                               
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="info_gym">
+
+        <div class="info">
+            {% if app.user.franchise|default %} 
+            {# title, if director #}
+            <div class="title">
+                <h2>mes informations</h2>
+            </div>
+            {% else %}
+            {# title, if admin #}
+            <div class="title">
+                <h2>informations</h2>
+            </div>
+            {% endif %}
+
+            {# informations about the director #}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>{{ franchise.active ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>' }}</th>
+                        <td>{{ franchise.active ? 'active' : 'désactive' }}</td>
+                    </tr>
+                    <tr>                   
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/></svg></th>
+                        {% if franchise.user.name|default %} 
+                            <td>{{ franchise.user.name }}, Directeur(rice)</td>
+                        {% else %}
+                            <td>aucun nom enregistré</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></th>
+                        <td><a href="mailto:{{ franchise.user.email }}">{{ franchise.user.email }}</a></td>
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg></th>
+                        {% if franchise.user.phone|default %} 
+                        <td>{{ franchise.user.phone }}</td>
+                        {% else %}
+                            <td>aucun numéro enregistré</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="gym">
+
+            {% if app.user.franchise|default %} 
+            {# title, if director #}
+            <div class="title">
+                <h2>mes salle(s) de sport</h2>
+            </div>
+            {% else %}
+            {# title, if admin #}
+            <div class="title">
+                <h2>salle(s) de sport</h2>
+            </div>
+            {% endif %}
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+
+                {# button, if admin #}
+                {% if is_granted('ROLE_ADMIN') %}
+                <button class="plus-button-franchise-show"><a href="{{ path('user_gym_new') }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg></a></button>
+                {% endif %}
+
+                {% if franchise.gym|default %} 
+
+                {% set i = 0 %}
+                {% for i in 0..franchise.gym|length-1 %}
+                {# informations for each gym #}
+                <div class="accordion-item-franchise-show {{ franchise.gym.get(i).active ? 'activated' : 'disabled' }}">
+
+                    <h3 class="accordion-header" id="flush-heading{{ franchise.gym.get(i).id }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ franchise.gym.get(i).id }}" aria-expanded="false" aria-controls="flush-collapse{{ franchise.gym.get(i).id }}">{{ franchise.gym[i] }}</button>
+                    </h3>
+
+                    <div id="flush-collapse{{ franchise.gym.get(i).id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ franchise.gym.get(i).id }}" data-bs-parent="#accordionFlushExample">
+
+                        <div class="accordion-body">
+
+                            <div class="info-gym_buttons">
+
+                                <div class="info-gym">
+
+                                    <h3>informations</h3>
+
+                                    {# informations about the manager #}
+                                    <table class="table">
+                                        <tboby>
+                                            <tr class="{{ franchise.gym.get(i).active ? 'active' : 'disabled' }}">
+                                                <th>{{ franchise.gym.get(i).active ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>' }}</th>
+                                                <td>{{ franchise.gym.get(i).active ? 'active' : 'désactive' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/></svg></th> 
+                                                {% if franchise.gym.get(i).user.name|default %}
+                                                    <td>{{ franchise.gym.get(i).user.name }}, Gérant(e)</td>
+                                                {% else %}
+                                                    <td>aucun nom enregistré</td>
+                                                {% endif %}
+                                            </tr>
+                                            <tr>
+                                                <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></th>
+                                                <td><a href="mailto:{{ franchise.gym.get(i).user.email }}">{{ franchise.gym.get(i).user.email }}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg></th>
+                                                {% if franchise.gym.get(i).user.phone|default %}
+                                                    <td>{{ franchise.gym.get(i).user.phone }}</td>
+                                                {% else %}
+                                                    <td>aucun numéro enregistré</td>
+                                                {% endif %}
+                                            </tr>
+                                            <tr>
+                                                <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/><path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/></svg></th>
+                                                <td>{{ franchise.gym.get(i).address }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {# buttons, if admin #}
+                                <div class="buttons">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    <ul>
+                                        <li class="gym-menu-item"><a title="modifier les informations de la salle de sports {{ franchise.gym.get(i).name }}" class="gym-menu-link" href="{{ path('gym_edit', {'id': franchise.gym.get(i).id}) }}"><button class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg> salle de sport</button></a></li>
+
+                                        <li class="gym-menu-item"><a title="modifier les informations du gérant(e)" class="gym-menu-link" href="{{ path('user_edit', {'id': franchise.gym.get(i).user.id}) }}"><button class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg> gérant(e)</button></a></li>
+
+                                        <li class="gym-menu-item"><a title="modifier les options du contrat" class="gym-menu-link" href="{{ path('contract_edit', {'id': franchise.gym.get(i).contract.id}) }}"><button class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg> contrat</button></a></li>
+                      
+                                        {# delete button with csrf_token #}
+                                        <li class="gym-menu-item">
+                                            <form title="supprimer la salle de sport {{ franchise.gym.get(i).name }}" method="post" action="{{ path('user_delete', {'id': franchise.gym.get(i).user.id}) }}" onsubmit="return confirm('Êtes-vous certain de vouloir supprimer la salle de sport {{ franchise.gym.get(i).name }} ?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ franchise.gym.get(i).user.id) }}">
+                                                <button class="delete-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/></svg> salle de sport
+                                                </button>
+                                            </form>
+                                        </li>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                            <h3>outils en ligne</h3>
+
+                            {# tools for the manager #}
+                            <div class="contract-gym">
+                                <ul class="showfranchisegym-tools">
+                                    <li class="contract-gym-item {{ franchise.gym.get(i).contract.sendNewsletter ? 'active' : 'notavailable' }}">
+                                        <div class="overlay">envoyer des bulletins de nouvelles<div>
+                                    </li>
+                                    <li class="contract-gym-item {{ franchise.gym.get(i).contract.teamPlanning ? 'active' : 'notavailable' }}">
+                                        <div class="overlay">gestion des horaires d'équipe<div>
+                                    </li>
+                                    <li class="contract-gym-item {{ franchise.gym.get(i).contract.sellDrinks ? 'active' : 'notavailable' }}">
+                                        <div class="overlay">vendre des boissons<div>
+                                    </li>
+                                </ul>
+                                <ul class="showfranchisegym-tools">
+                                    <li class="contract-gym-item {{ franchise.gym.get(i).contract.promotion ? 'active' : 'notavailable' }}">
+                                        <div class="overlay">promotion de salle<div>
+                                    </li>
+                                    <li class="contract-gym-item {{ franchise.gym.get(i).contract.paymentSchedules ? 'active' : 'notavailable' }}">
+                                        <div class="overlay">calendrier de paiements<div>
+                                    </li>
+                                    <li class="contract-gym-item {{ franchise.gym.get(i).contract.statistics ? 'active' : 'notavailable' }}">
+                                        <div class="overlay">statistiques des utilisateurs<div>
+                                    </li>
+                                </ul>                               
+                            </div>
+
+                            
+                        </div>             
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                    <td>aucune adresse enregistrée</td>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
+</div>
+    
 {% endblock %}

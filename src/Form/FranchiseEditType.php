@@ -9,14 +9,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FranchiseType extends AbstractType
+class FranchiseEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user', null, [
-                'label' => 'le nouveau directeur créé'
-            ])
             ->add('name', TextType::class, [
                 'label' => 'nom',
                 'required' => false

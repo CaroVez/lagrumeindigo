@@ -13,7 +13,7 @@ class Contract
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?int $id = null;
+    private $id;
 
     #[ORM\Column]
     private ?bool $sendNewsletter = null;
@@ -140,5 +140,10 @@ class Contract
         $this->gym = $gym;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->id;
     }
 }

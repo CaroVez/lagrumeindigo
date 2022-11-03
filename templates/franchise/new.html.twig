@@ -1,14 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Franchise{% endblock %}
+{% block metaDescription %}Ajout d'une franchise.{% endblock %}
+{% block title %}ajout franchise - {% endblock %}
+{% block franchiseActive %}active{% endblock %}
+{% block panelPage %}home{% endblock %}
 
-{% block body %}
-    <h1>Create new Franchise</h1>
+{% block content %}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
+<div class="body-edit">
 
-    <a href="{{ path('franchise_index') }}">back to list</a>
+    <div class="formtype">
+
+        {# form title #}
+        <div class="title-edit">
+            <h3>ajout d'une nouvelle franchise</h3>
+            <p>étape 2 de 3</p>
+            <h1>nouvelle franchise</h1>
+            <p>veuillez entrer les informations de la franchise</p>
+        </div>
+
+        {# insert symfony form #}
+        {{ form_start(form) }}
+            <div class="belongs">
+                <p>veuillez sélectionner :</p>
+                {{ form_row(form.user) }}
+            </div>
+            <br>
+            {# save button #}
+            {{ form_widget(form) }}
+            <div class="formbutton">
+                <button class="edit-button">enregistrer</button>
+            </div>
+        {{ form_end(form) }}
+
+     </div>
+    
+</div>
+
 {% endblock %}

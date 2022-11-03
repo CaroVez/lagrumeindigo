@@ -1,39 +1,120 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gym index{% endblock %}
+{% block metaDescription %}Liste de toutes les salles de sport de l'agrume indigo.{% endblock %}
+{% block title %}salles de sport - {% endblock %}
+{% block gymActive %}active{% endblock %}
+{% block panelPage %}home{% endblock %}
 
-{% block body %}
-    <h1>Gym index</h1>
+{% block content %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Active</th>
-                <th>Address</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for gym in gyms %}
-            <tr>
-                <td>{{ gym.id }}</td>
-                <td>{{ gym.name }}</td>
-                <td>{{ gym.active ? 'Yes' : 'No' }}</td>
-                <td>{{ gym.address }}</td>
-                <td>
-                    <a href="{{ path('gym_show', {'id': gym.id}) }}">show</a>
-                    <a href="{{ path('gym_edit', {'id': gym.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="body-index">
 
-    <a href="{{ path('gym_new') }}">Create new</a>
+    {# title #}
+    <div class="page-title">
+        <h1><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/><path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/></svg> salles de sport</h1>
+    </div>
+    
+    {# search bar and sorting buttons #}
+    {% include 'search.html.twig' %}
+
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+
+            <button class="plus-button-gym"><a href="{{ path('user_gym_new') }}"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg></a></button>
+            
+            {% for gym in gyms %}
+            {# informations for each gym #}
+            <div class="accordion-item-gym {{ gym.active ? 'activated' : 'disabled' }}">
+
+                <h3 class="accordion-header" id="flush-heading{{ gym.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ gym.id }}" aria-expanded="false" aria-controls="flush-collapse{{ gym.id }}">{{ gym.name }}</button>
+                </h3>
+
+                <div id="flush-collapse{{ gym.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ gym.id }}" data-bs-parent="#accordionFlushExample">
+                
+                    <div class="accordion-body">
+
+                        <div class="info-gym_buttons">
+
+                            <div class="info-gym">
+
+                                {# informations about the manager #}
+                                <table class="table">
+                                    <tboby>
+                                        <tr>
+                                            <th>{{ gym.active ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>' }}</th>
+                                            <td>{{ gym.active ? 'active' : 'désactive' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/></svg></th> 
+                                            {% if gym.user.name|default %}
+                                                <td>{{ gym.user.name }}, Gérant(e)</td>
+                                            {% else %}
+                                                <td>aucun nom enregistré</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr>
+                                            <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></th>
+                                            <td><a href="mailto:{{ gym.user.email }}">{{ gym.user.email }}</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg></th>
+                                            {% if gym.user.phone|default %}
+                                                <td>{{ gym.user.phone }}</td>
+                                            {% else %}
+                                                <td>aucun numéro enregistré</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr>
+                                            <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/><path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/></svg></th>
+                                            <td>{{ gym.address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/><path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/></svg></th>
+                                            {# show franchise button #}
+                                            <td> franchise : {{ gym.franchise.name }} <a class="side-menu-link" href="{{ path('franchise_show', {'id': gym.franchise.id}) }}"><button class="menu-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg>  voir la franchise</button></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <h3>outils en ligne</h3>
+
+                        {# tools for the manager #}
+                        <div class="contract-gym">
+                            <ul class="indexgym-tools">
+                                <li class="contract-gym-item {{ gym.contract.sendNewsletter ? 'active' : 'notavailable' }}">
+                                    <div class="overlay">envoyer des bulletins de nouvelles<div>
+                                </li>
+                                <li class="contract-gym-item {{ gym.contract.teamPlanning ? 'active' : 'notavailable' }}">
+                                    <div class="overlay">gestion des horaires d'équipe<div>
+                                </li>
+                                <li class="contract-gym-item {{ gym.contract.sellDrinks ? 'active' : 'notavailable' }}">
+                                    <div class="overlay">vendre des boissons<div>
+                                </li>
+                            </ul>
+                            <ul class="indexgym-tools">
+                                <li class="contract-gym-item {{ gym.contract.promotion ? 'active' : 'notavailable' }}">
+                                    <div class="overlay">promotion de salle<div>
+                                </li>
+                                <li class="contract-gym-item {{ gym.contract.paymentSchedules ? 'active' : 'notavailable' }}">
+                                    <div class="overlay">calendrier de paiements<div>
+                                </li>
+                                <li class="contract-gym-item {{ gym.contract.statistics ? 'active' : 'notavailable' }}">
+                                    <div class="overlay">statistiques des utilisateurs<div>
+                                </li>
+                            </ul>                               
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+
+</div>
 {% endblock %}
+
+{# js script for sorting the list #}
+{% block script %}<script src="{{ asset('assets/js/sorting.js') }}"></script>{% endblock %}

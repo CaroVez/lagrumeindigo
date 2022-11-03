@@ -1,19 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="{% block metaDescription %}{% endblock %}">
+      {# bootstrap #}
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+      {# css #}
+      <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+      <title>{% block title %}{% endblock %}l'agrume indigo</title>
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>
+            {# navbar #}
+            <nav class="fixed-top ">
+                <p class="logo">l'agrume indigo</p>
+
+                <ul class="menu">
+                    {# menu when not login #}
+                    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="menu-item"><a class="menu-link {% block becomeActive %}{% endblock %}" href="{{ path('become') }}">devenez franchisé</a></li>
+                    {% endif %}
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="menu-item"><a class="menu-link {% block accueilActive %}{% endblock %}" href="{{ path('home') }}">accueil</a></li>
+                    {% endif %}
+
+                    {# menu for admin #}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="menu-item"><a class="menu-link {% block franchiseActive %}{% endblock %}" href="{{ path('franchise_index') }}">franchises</a></li>
+                        <li class="menu-item"><a class="menu-link {% block gymActive %}{% endblock %}" href="{{ path('gym_index') }}">salles de sport</a></li>
+                    {% endif %}
+
+                    {# menu for director #}
+                    {% if app.user.franchise|default %} 
+                        {% if is_granted('ROLE_FRANCHISE') %}
+                            <li class="menu-item"><a class="menu-link {% block myfranchiseActive %}{% endblock %}" href="{{ path('franchise_show', {'id': app.user.franchise.id}) }}">my franchise</a></li>
+                        {% endif %}
+                    {% endif %}
+
+                    {# menu for manager #}
+                    {% if app.user.gym|default %}
+                        {% if is_granted('ROLE_GYM') %}
+                            <li class="menu-item"><a class="menu-link {% block mygymActive %}{% endblock %}" href="{{ path('gym_show', {'id': app.user.gym.id}) }}">my salle de sport</a></li>
+                        {% endif %}     
+                    {% endif %}           
+
+                    {# menu when login #}
+                    {% if app.user %}
+                        <li class="welcome">
+                            <span>Bienvenue {{ app.user.name }} !</span>
+                        </li>
+                    {% endif %}
+                    {% if app.user %}
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ path('logout') }}">déconnexion</a>
+                        </li>
+                    {% else %}
+                    {# menu when not login #}
+                        <li class="menu-item {{ app.request.get('_route') == 'login' ? 'active' : '' }}">
+                            <a class="menu-link {% block connexionActive %}{% endblock %}" href="{{ path('login') }}">connexion</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                {# menu for mobile #}
+	            <div class="hamburger">
+	            	<span class="bar"></span>
+	            	<span class="bar"></span>
+	            	<span class="bar"></span>
+	            </div>
+
+            </nav>
+        </header>
+
+        <main>
+
+            {# panel image on each page #}
+            <div class="panel_page {% block panelPage %}{% endblock %}">
+	            <p></p>
+            </div>
+            {% block content %}{% endblock %}
+
+        </main>
+
+        <footer>
+        </footer>
+
+        {# bootstrap #}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"  crossorigin="anonymous"></script>
+        {# script #}
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="{{ asset('assets/js/burger.js') }}"></script>
+        {% block script %}{% endblock %}
+        
     </body>
 </html>

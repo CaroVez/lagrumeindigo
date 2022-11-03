@@ -14,7 +14,7 @@ class Gym
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?int $id = null;
+    private $id;
 
     #[ORM\Column(length: 60)]
     private ?string $name = null;
@@ -31,6 +31,10 @@ class Gym
 
     #[ORM\OneToOne(mappedBy: 'gym', cascade: ['persist', 'remove'])]
     private ?Contract $contract = null;
+
+    #[ORM\ManyToOne(inversedBy: 'gyms')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Franchise $franchise = null;
 
     public function getId(): ?Uuid
     {
@@ -100,5 +104,22 @@ class Gym
         $this->contract = $contract;
 
         return $this;
+    }
+
+    public function getFranchise(): ?Franchise
+    {
+        return $this->franchise;
+    }
+
+    public function setFranchise(?Franchise $franchise): self
+    {
+        $this->franchise = $franchise;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

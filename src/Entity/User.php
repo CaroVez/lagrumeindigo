@@ -17,7 +17,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?int $id = null;
+    private $id;
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
@@ -31,11 +31,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * @var string The plainPassword for the form
+     */
+    private $plainPassword;
+
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Franchise $franchise = null;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Gym $gym = null;
+
+    #[ORM\Column(length: 60)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 60, nullable: true)]
+    private ?string $phone = null;
 
     public function getId(): ?Uuid
     {
@@ -98,6 +109,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $password): self
+    {
+        $this->plainPassword = $password;
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
@@ -139,5 +162,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->gym = $gym;
 
         return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->email;        
     }
 }

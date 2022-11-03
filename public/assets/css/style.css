@@ -1,0 +1,929 @@
+/* ### fonts ### */
+@font-face {
+	font-family: 'Questrial';
+	src: url(../fonts/Questrial/Questrial-Regular.ttf);
+}
+@font-face {
+	font-family: 'Architects_Daughter';
+	src: url(../fonts/Architects_Daughter/ArchitectsDaughter-Regular.ttf);
+}
+
+/* ### general ### */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Questrial';
+}
+
+body {
+  font-size: 1rem;
+  margin: auto;
+}
+
+main {
+  margin-top: 4rem;
+}
+
+/* ### title ### */
+h1 {
+  font-family: 'Architects_Daughter';
+  font-size: 1.75rem;
+  color: #002B5B;
+}
+h1 svg {
+  margin-top: -0.75rem;
+}
+h2 {
+  font-family: 'Architects_Daughter';
+  font-size: 1.5rem;
+  color: #002B5B;
+}
+h2 svg {
+  margin-top: -0.5rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+
+/* ### span ### */
+h1 span, h2 span {
+  font-family: 'Architects_Daughter';
+  color: #EC994B;
+}
+p span, p span a {
+  font-family: 'Architects_Daughter';
+  color: #000000;
+  font-size: 1.25rem;
+}
+
+/* ### body ### */
+.body-index {
+  width: 90%;
+  margin: auto;
+}
+
+/* ### title ### */
+.page-title {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+.page-title a svg {
+  color: #002B5B;
+  margin-top: -0.75rem;
+}
+.page-title a svg:focus {
+  color: #EC994B;
+}
+.title h2 {
+  margin-top: 1.5rem;
+  text-align: center;
+  background-color: #F1EEE9;
+}
+
+/* ### a ### */
+a {
+  text-decoration: none;
+}
+a:focus {
+  color: #EC994B;
+  font-weight: bold;
+}
+
+/* ### buttons ### */
+.filter-button, .edit-button , .menu-button, .delete-button {
+  padding: 5px;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  border: 1px solid #002B5B;
+  background-color: #002B5B;
+}
+.filter-button:focus, .menu-button:focus, .delete-button:focus {
+  background-color: #F1EEE9;
+  border: 1px solid #002B5B;
+  color: #002B5B;
+}
+.delete-button:focus, .edit-button:focus  {
+  background-color: #F1EEE9;
+  border: 1px solid #EC994B;
+  color: #EC994B;
+}
+
+
+
+/* ########### HEADER NAV ########### */
+header nav {
+  display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 24px;
+	height: 50px;
+  background-color: #002B5B;
+}
+.logo {
+  font-family: 'Architects_Daughter';
+  color: #EC994B;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+}
+.hamburger {
+  display: block;
+}
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger.active .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+.bar {
+	display: block;
+	width: 25px;
+	height: 3px;
+	margin: 5px auto;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	background-color: #EC994B;
+}
+
+.menu {
+  position: fixed;
+  right: -100%;
+  top: 50px;
+  gap: 0;
+  flex-direction: column;		
+  width: 16rem;
+  transition: 0.3s;  
+  background-color: #002B5B;
+}
+.welcome span {
+  color: #F1EEE9;
+  font-family: 'Architects_Daughter';
+}
+.menu-item, .welcome {
+  list-style: none;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  text-align: right;
+}
+.menu.active {
+  right: 0;
+}
+.menu-link {
+  color: #F1EEE9;
+	text-decoration: none;
+  transition: 0.7s ease;
+}
+.menu-link.active {
+  color: #EC994B;
+  font-weight: bold;
+}
+
+
+
+/* ########### BECOME PAGE ########### */
+.description_tools {
+  margin-top: 1rem;
+}
+
+.description {
+  text-align: center;
+}
+
+.description img {
+  display: none;
+}
+
+.info-tools {
+  text-align: center;
+}  
+.info-tools ul {
+  list-style: none;
+}
+
+.contact {
+  text-align: center;
+}
+.contact p {
+  font-weight: bold;
+}
+.contact p a {
+  font-size: 1.25rem;
+  font-family: 'Architects_Daughter';
+  color: #EC994B;
+}
+.contact p a:focus {
+  color: #002B5B;
+}
+
+
+/* ########### BECOME, WELCOME, FRANCHISE-INDEX, GYM-INDEX PAGES ########### */
+
+
+/* ########### BECOME PAGE ########### */
+
+
+/* ########### WELCOME PAGE ########### */
+.welcome-description {
+  text-align: center;
+}
+
+
+
+/* ########### FRANCHISE-INDEX, GYM-INDEX PAGES ########### */
+.disabled h3 button, .disabled .accordion-body, .disabled .accordion-body a, .disabled th svg, .disabled td {
+  color: #73777B;
+}
+
+/* ### search bar ### */
+.search {
+  margin-bottom: 1rem;
+}
+.search button {
+  margin-top: 1rem;
+}
+#search {
+  border: inherit;
+  border-bottom: solid 1px #002B5B;
+  color: #73777B;
+}
+
+/* ### accordion ### */
+.accordion {
+  gap: 0.25rem;
+}
+
+.accordion a {
+  color: #000000;
+}
+.accordion a:hover {
+  color: #EC994B;
+}
+
+.accordion-item, .accordion-item-gym {
+  border: inherit;
+}
+.accordion-item-franchise-show {
+  width: 100%;
+  border: inherit;
+}
+.accordion-header {
+  border: solid #73777B 1px;
+}
+.accordion-body {
+  background-color: #F1EEE9;
+  margin-top: 0.25rem;
+}
+.accordion-button:focus, .accordion-button svg:focus {
+  color: #F1EEE9;
+  box-shadow: inherit;
+  background-color: #73777B;
+}
+.accordion-button:checked, .accordion-button svg:focus {
+  color: #F1EEE9;
+  box-shadow: inherit;
+  background-color: #002B5B
+}
+
+.plus-button, .plus-button-gym, .plus-button-franchise-show {
+  border: solid #73777B 1px;
+  background-color: inherit;
+  height: 55px;
+  color: #002B5B;
+}
+.plus-button, .plus-button-gym {
+  width: 100%;
+}
+.plus-button-franchise-show {
+  width: 100%;
+}
+
+/* ########### GYM-INDEX, FRANCHISE-SHOW, GYM-SHOW PAGES ########### */
+/* ### inside accordion ### */
+
+
+
+/* ########### FRANCHISE-SHOW PAGE ########### */  
+.side-menu_body {
+  width: 90%;
+  margin: auto;
+}
+
+.side-menu {
+  margin-left: -2rem;
+}  
+.side-menu h2 {
+  margin-left: 2rem;
+}
+.side-menu ul {
+  display: flex;
+  justify-content: space-between;
+}  
+.side-menu-item button {
+  margin-bottom: 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+}
+.side-menu-item {
+  list-style: none;
+}
+
+.contract .more {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* ### inside accordion ### */
+.accordion-body {
+  font-size: 0.75rem;
+}
+
+.info_gym a {
+  color: #000000;
+}  
+.info_gym a:focus {
+  color: #EC994B;
+}
+
+.buttons {
+  margin-left: -2rem;
+}
+.buttons ul {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}  
+.gym-menu-item button {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.gym-menu-item {
+  list-style: none;
+}
+
+tr {
+  border-color: #002B5B;
+}
+tr svg {
+  color: #EC994B;
+}
+
+
+
+/* ########### GYM-SHOW ########### */  
+.body-gym {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.info_info-franchise a {
+  color: #000000;
+}
+.info_info-franchise a:focus {
+  color: #EC994B;
+}
+
+
+
+/* ########### BECOME, GYM-INDEX, FRANCHISE-SHOW, GYM-SHOW PAGES ########### */
+.contract {
+  margin-bottom: 1rem;
+}
+.contract-franchise ul, .contract-gym ul {
+  display: flex;
+  text-align: center;
+  list-style: none;
+}
+.contract-franchise .notavailable, .contract-gym .notavailable {
+  color: #73777B;
+}
+
+/* ### tools ### */
+.become-tools, 
+.indexgym-tools, 
+.showfranchise-tools, 
+.showfranchisegym-tools, 
+.showgym-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.become-tools > li,
+.showfranchise-tools > li,
+.showgym-tools > li {
+  flex: 1 1 auto; 
+  height: 6em;
+  position: relative;
+}
+.indexgym-tools > li, 
+.showfranchisegym-tools > li {
+  flex: 1 1 auto; 
+  height: 4rem;
+  position: relative;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  background-color: #EC994B;
+}
+.showfranchise-tools::after,
+.showgym-tools::after {
+  content: "";
+  flex-grow: 50;
+}   
+.become-tools li img, 
+.showfranchise-tools li img,
+.showgym-tools li img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  border-radius: 5px;
+  filter: opacity(50%);
+}
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;  
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  /* center overlay content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+}
+.overlay a {
+  color: #002B5B;
+}
+.overlay a:focus {
+  color: #EC994B;
+}
+.showfranchise-tools .active:hover .overlay,
+.showgym-tools .active:hover .overlay {  
+  background: rgba(57, 57, 57, 0.502);
+}
+.notavailable .overlay {
+  color: #73777B;
+}
+.showfranchise-tools .notavailable img,
+.showgym-tools .notavailable img {
+  filter: grayscale();  
+}
+.indexgym-tools .notavailable .overlay,
+.showfranchisegym-tools .notavailable .overlay {
+  background-color: #C7C7C7;
+}
+
+
+
+/* ########### EDIT PAGES ########### */ 
+.body-edit {
+  margin-top: 1rem;
+  width: 90%;
+  margin: auto;
+}
+
+.title-edit {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.title-edit h1 {
+  font-size: 1.5rem;
+  word-break: break-all;
+}
+
+.formtype a {
+  color: #002B5B;
+}
+.formtype a:focus {
+  color: #EC994B;
+}
+
+.formtype {
+  display: table;
+  border: 1px solid #002B5B;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.formtype .belongs {
+  border-bottom: 1px solid #002B5B;
+  border-top: 1px solid #002B5B;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+.formtype, 
+.formtype label, 
+.formtype input[type=text], 
+.formtype input[type=email], 
+.formtype input[type=password], 
+.formtype input[type=tel], 
+.formtype textarea, 
+.formtype select {
+  width: 20rem;
+}
+.formtype label {
+  font-weight: bold;
+}
+.formtype input[type=text],
+.formtype input[type=email], 
+.formtype input[type=password], 
+.formtype input[type=tel],
+.formtype select,
+.formtype textarea {    
+  border: none;
+  background-color: #F1EEE9;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+.formtype textarea {    
+  height: 6rem;
+}
+.formtype input[type=text]:focus,
+.formtype input[type=email]:focus, 
+.formtype input[type=password]:focus, 
+.formtype input[type=tel]:focus,  
+.formtype textarea:focus, 
+.formtype select:focus {
+  border: none;
+  background-color: #EC994B;
+}
+.formtype option:checked {
+  color: #EC994B;
+  font-weight: bold;
+}
+
+.formbutton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+}
+
+
+
+
+/* ############################## */
+/* ########### TABLET ########### */
+/* ############################## */
+@media screen and (min-width: 1050px) { /*plus grand que 1050px*/
+  body {
+    font-size: 0.9rem;
+  }
+
+  .body-index {
+    width: 80%;
+    margin: auto;
+  }
+
+  .page-title {
+    margin-top: 0.75rem;
+  }
+  .page-title a svg:hover {
+    color: #EC994B;
+  }
+  a:hover {
+    color: #EC994B;
+    text-decoration: underline;
+  }
+
+  .title h2 {
+    margin-top: 1.5rem;
+    text-align: left;
+    background-color: inherit;
+  }
+
+
+
+  /* ### buttons ### */
+  .filter-button:hover, .menu-button:hover, .delete-button:hover {
+    background-color: #F1EEE9;
+    border: 1px solid #002B5B;
+    color: #002B5B;
+  }
+  .delete-button:hover, .edit-button:hover  {
+    background-color: #F1EEE9;
+    border: 1px solid #EC994B;
+    color: #EC994B;
+  }
+
+
+  /* ########### HEADER NAV ########### */
+  header nav {
+    height: 70px;
+  }
+  .hamburger {
+    display: none;
+  }
+  .menu {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.25rem;
+    position: inherit;
+    right: inherit;
+    top: inherit;
+    gap: 1.5rem;
+    flex-direction: inherit;		
+    width: inherit;
+    transition: inherit;    
+    background-color: inherit;
+  }
+  .welcome {
+    margin-top: -0.25rem;
+  }
+  .welcome span {
+    font-size: 1.25rem;  
+  }
+  .menu-item {
+    cursor: pointer;  
+  }
+
+
+
+  /* ########### BECOME, WELCOME, FRANCHISE-INDEX, GYM-INDEX PAGES ########### */
+
+  /* ### ribbon image ### */
+  .panel_page {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 15rem;
+    margin-top: -1rem;
+  }
+  .become {
+    background-image: url(../images/gym_panel-become.jpg);
+    filter:sepia(50%);
+  }
+  .home {
+    background-image: url(../images/gym_panel-home.jpg);
+    filter:sepia(50%);
+  }
+
+
+  /* ########### BECOME PAGE ########### */
+  .description_tools {
+    display: flex;
+    margin-top: 2rem;
+  }
+
+  .description {
+    text-align: center;
+    width: 70%;
+  }
+
+  .description img {
+    display: inherit;
+    width: 20rem;
+    border-radius: 5px;
+    filter: sepia(50%);
+  }
+  .paragraphe {
+    width: 90%;
+  }
+  .image {
+    float: left;
+    width: 22rem;
+  }
+  .paragraphe p {
+    text-align: left;
+  }
+  
+  .info-tools {
+    width: 30%;
+  }  
+  .info-tools ul {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+  }
+
+  .contact p {
+    font-weight: inherit;
+    font-size: 1.25rem;
+  }
+  .contact p a {
+    font-size: 2rem;
+    color: #000000;
+  }
+  .contact p a:hover {
+    color: #EC994B;
+  }
+
+
+  /* ########### WELCOME PAGE ########### */
+  .welcome-description {
+    text-align: center;
+  }
+
+
+  /* ########### FRANCHISE-INDEX, GYM-INDEX PAGES ########### */
+  
+  /* ### search bar ### */
+  .search {
+    display: flex;
+    justify-content: space-between;
+  }
+  .search button {
+    margin-top: inherit;
+  }
+  
+  /* ### accordion ### */
+  .accordion {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .accordion-item, .accordion-item-gym {
+    width: 49%;
+  }
+  .accordion-item-franchise-show {
+    width: 100%;
+    border: inherit;
+  }
+  
+  .plus-button, .plus-button-gym {
+    width: 49%;
+  }
+
+  /* ########### GYM-INDEX, FRANCHISE-SHOW, GYM-SHOW PAGES ########### */
+  /* ### inside accordion ### */
+
+
+
+  /* ########### FRANCHISE-SHOW PAGE ########### */  
+  .side-menu_body {
+    display: flex;
+    width: inherit;
+  }
+
+  .side-menu {
+    background-color: #F1EEE9;
+    width: 20%;
+    margin-left: inherit;
+    margin-top: -60px;
+  }
+  .side-menu h2 {
+    margin-top: 80px;
+  }
+  .side-menu ul {
+    display: inherit;
+    justify-content: inherit;
+  }  
+  .side-menu-item button {
+    width: 80%;
+  }
+
+  .body-franchise {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .body-franchise_admin {
+    width: 80%;
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+
+  /* ### inside accordion ### */
+  .accordion-body {
+    font-size: inherit;
+  }
+
+  .info_gym {
+    display: flex;
+  }
+  .info {
+    width: 30%;
+  }
+  .info_gym a:hover {
+    color: #EC994B;
+  }
+  .gym {
+    width: 70%;
+    margin-left: 3rem;
+  }
+
+  .info-gym_buttons {
+    display: flex;
+  }
+
+  .buttons {
+    width: 16rem;
+    margin-left: inherit;
+  }
+  .buttons ul {
+    display: inherit;
+    justify-content: inherit;
+    gap: inherit;
+  }  
+  .gym-menu-item button {
+    width: 80%;
+    font-size: inherit;
+  }
+  .gym-menu-item {
+    list-style: none;
+  }
+
+
+  
+  /* ########### GYM-SHOW ########### */  
+  .body-gym {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .info_info-franchise {
+    display: flex;
+  }
+  .info_info-franchise a:hover {
+    color: #EC994B;
+  }
+  .info {
+    width: 50%;
+  }
+  .info-franchise {
+    width: 50%;
+    margin-left: 3rem;
+  }
+
+
+
+  /* ########### BECOME, GYM-INDEX, FRANCHISE-SHOW, GYM-SHOW PAGES ########### */
+
+  /* ### tools ### */
+  .become-tools > li,
+  .showfranchise-tools > li,
+  .showgym-tools > li {
+    height: 10em;
+  }
+  .overlay a:hover {
+    color: #EC994B;
+  }
+  .showfranchise-tools .active:hover .overlay,
+  .showgym-tools .active:hover .overlay {  
+    transition: all 0.2s 0.1s ease-in-out;
+    font-size: 1.25rem;
+  }
+
+
+
+  /* ########### EDIT PAGES ########### */ 
+  .body-edit {
+    margin-top: 2rem;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .formtype a:hover {
+    color: #EC994B;
+  }
+
+  .formtype, 
+  .formtype label, 
+  .formtype input[type=text], 
+  .formtype input[type=email], 
+  .formtype input[type=password], 
+  .formtype input[type=tel], 
+  .formtype textarea, 
+  .formtype select {
+    width: 30rem;
+  }
+
+}
+
+
+
+
+/* ############################### */
+/* ########### DESKTOP ########### */
+/* ############################### */
+@media screen and (min-width: 1200px) {  /*plus grand que 1200px*/
+  /* ### accordion ### */
+  .accordion {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .accordion-item, .accordion-item-gym {
+    width: 33%;
+  }
+  .accordion-item-franchise-show {
+    width: 100%;
+    border: inherit;
+  }
+
+  .plus-button, .plus-button-gym {
+    width: 33%;
+  }
+}

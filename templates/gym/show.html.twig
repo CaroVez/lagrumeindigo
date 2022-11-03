@@ -1,34 +1,174 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gym{% endblock %}
+{% block metaDescription %}Informations concernant ma salle de sport.{% endblock %}
+{% block title %}{{ gym.name }} - {% endblock %}
+{% block gymActive %}active{% endblock %}
+{% block mygymActive %}active{% endblock %}
+{% block panelPage %}home{% endblock %}
 
-{% block body %}
-    <h1>Gym</h1>
+{% block content %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ gym.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ gym.name }}</td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td>{{ gym.active ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ gym.address }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% if app.user.gym|default %} 
+{# title, if manager #}
+<div class="page-title">
+    <h1>ma salle de sport <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/><path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/></svg> <span>{{ gym.name }}</span></h1>
+</div>
+{% else %}
+{# title, if admin #}
+<div class="page-title">
+    <h1>salle de sport <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/><path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/></svg> <span>{{ gym.name }}</span></h1>
+</div>
+{% endif %}
 
-    <a href="{{ path('gym_index') }}">back to list</a>
+<div class="body-gym">
 
-    <a href="{{ path('gym_edit', {'id': gym.id}) }}">edit</a>
+    <div class="contract">
 
-    {{ include('gym/_delete_form.html.twig') }}
+        {% if app.user.gym|default %} 
+        {# title, if manager #}
+        <div class="title">
+            <h2>mes outils en ligne</h2>
+        </div>
+        {% else %}
+        {# title, if admin #}
+        <div class="title">
+            <h2>outils en ligne</h2>
+        </div>
+        {% endif %}
+
+        {# tools for the manager #}
+        <div class="contract-gym">
+            <ul class="showgym-tools">
+                <li class="contract-item {{ gym.contractGym.sendNewsletter ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/newsletter.jpg')}}" alt="image">
+                    <div class="overlay">{{ gym.contractGym.sendNewsletter ? '<a href="#">envoyer des<br>bulletins de<br>nouvelles</a>' : 'envoyer des<br>bulletins de<br>nouvelles' }}<div>
+                </li>
+                <li class="contract-item {{ gym.contractGym.teamPlanning ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/calendar.jpg')}}" alt="image">
+                    <div class="overlay">{{ gym.contractGym.teamPlanning ? '<a href="#">gestion des<br>horaires<br>d\'équipe</a>' : 'gestion des<br>horaires<br>d\'équipe' }}<div>
+                </li>
+                <li class="contract-item {{ gym.contractGym.sellDrinks ? 'active' : 'notavailable' }}">                    
+                    <img src="{{asset('assets/images/drinks.jpg')}}" alt="image">
+                    <div class="overlay">{{ gym.contractGym.sellDrinks ? '<a href="#">vendre des<br>boissons</a>' : 'vendre des<br>boissons' }}<div>
+                </li>
+                <li class="contract-item {{ gym.contractGym.promotion ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/promotion.jpg')}}" alt="image">
+                    <div class="overlay">{{ gym.contractGym.promotion ? '<a href="#">promotion<br>de salle</a>' : 'promotion<br>de salle' }}<div>
+                </li>
+                <li class="contract-item {{ gym.contractGym.paymentSchedules ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/payments.jpg')}}" alt="image">
+                    <div class="overlay">{{ gym.contractGym.paymentSchedules ? '<a href="#">calendrier de<br>paiements</a>' : 'calendrier de<br>paiements' }}<div>
+                </li>
+                <li class="contract-item {{ gym.contractGym.statistics ? 'active' : 'notavailable' }}">
+                    <img src="{{asset('assets/images/statistics.jpg')}}" alt="image">
+                    <div class="overlay">{{ gym.contractGym.statistics ? '<a href="#">statistiques des<br>utilisateurs</a>' : 'statistiques des<br>utilisateurs' }}<div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="info_info-franchise">
+
+        <div class="info">
+
+            {% if app.user.gym|default %} 
+            {# title, if manager #}
+            <div class="title">
+                <h2>mes informations</h2>
+            </div>
+            {% else %}
+            {# title, if admin #}
+            <div class="title">
+                <h2>informations</h2>
+            </div>
+            {% endif %}
+
+            {# informations about the manager #}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>{{ gym.active ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>' }}</th>
+                        <td>{{ gym.active ? 'active' : 'désactive' }}</td>
+                    </tr>
+                    <tr>                   
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/></svg></th>
+                        {% if gym.user.name|default %} 
+                            <td>{{ gym.user.name }}, {{ gym.user.role.get(0).name }}</td>
+                        {% else %}
+                            <td>aucun nom enregistré</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></th>
+                        <td><a href="mailto:{{ gym.user.email }}">{{ gym.user.email }}</a></td>
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg></th>
+                        {% if gym.user.phone|default %} 
+                        <td>{{ gym.user.phone }}</td>
+                        {% else %}
+                            <td>aucun numéro enregistré</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin-map-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z"/><path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/></svg></th>
+                        <td>{{ gym.address }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-franchise">
+
+            {% if app.user.gym|default %} 
+            {# title, if manager #}
+            <div class="title">
+                <h2>ma franchise <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/><path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/></svg> <span>{{ gym.franchise.name }}</span></h2>
+            </div>
+            {% else %}
+            {# title, if admin #}
+            <div class="title">
+                <h2><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/><path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/></svg> franchise <span>{{ gym.franchise.name }}</span></h2>
+            </div>
+            {% endif %}
+
+            {# informations about the director #}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>{{ gym.franchise.active ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>' }}</th>
+                        <td>{{ gym.franchise.active ? 'active' : 'désactive' }}</td>
+                    </tr>
+                    <tr>                   
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/></svg></th>
+                        {% if gym.franchise.user.name|default %} 
+                            <td>{{ gym.franchise.user.name }}, {{ gym.franchise.user.role.get(0).name }}</td>
+                        {% else %}
+                            <td>aucun nom enregistré</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></th>
+                        <td><a href="mailto:{{ gym.franchise.user.email }}">{{ gym.franchise.user.email }}</a></td>
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg></th>
+                        {% if gym.franchise.user.phone|default %} 
+                        <td>{{ gym.franchise.user.phone }}</td>
+                        {% else %}
+                            <td>aucun numéro enregistré</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/></svg></th>
+                        <td>Contactez votre franchise pour toutes questions concernant votre compte !</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>  
+
 {% endblock %}
