@@ -18,8 +18,7 @@ class FranchiseType extends AbstractType
                 'label' => 'le nouveau directeur créé'
             ])
             ->add('name', TextType::class, [
-                'label' => 'nom',
-                'required' => false
+                'label' => 'nom'
             ])
             ->add('active', CheckboxType::class, [
                 'label' => 'la franchise est-elle active ?',

@@ -21,10 +21,8 @@ class GymType extends AbstractType
             ->add('franchise', null, [
                 'label' => 'la franchise à laquelle elle appartient'
             ])
-
             ->add('name', TextType::class, [
-                'label' => 'nom',
-                'required' => false
+                'label' => 'nom'
             ])
             ->add('address', TextareaType::class, [
                 'label' => 'adresse complète',

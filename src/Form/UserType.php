@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -18,11 +17,7 @@ class UserType extends AbstractType
     {
         $builder
         ->add('name', TextType::class, [
-            'label' => 'nom complet',
-            'required' => false
-        ])
-        ->add('email', EmailType::class, [
-            'label' => 'courriel'
+            'label' => 'nom complet'
         ])
         ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,

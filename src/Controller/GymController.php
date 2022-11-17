@@ -63,7 +63,7 @@ class GymController extends AbstractController
     // ####################### SHOW GYM ####################### //
     public function show(Gym $gym): Response
     {
-        // access by ROLE_FRANCHISE //
+        // access by ROLE_GYM //
         if ($this->denyAccessUnlessGranted('ROLE_GYM', null, 'Vous n\'avez pas les droits d\'un gérant pour accéder à cette page') ) {
             // access only HIS OWN page //
             $userGym = $this->security->getUser()->getGym(); 

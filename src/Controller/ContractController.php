@@ -94,7 +94,7 @@ class ContractController extends AbstractController
         }
 
     // ####################### EDIT CONTRACT ####################### //
-    public function edit(Request $request, Contract $contract, ContractRepository $contractRepository): Response
+    public function edit(Request $request, Contract $contract, ContractRepository $contractRepository, MailerInterface $mailer): Response
     {
         // edit FORM //
         $form = $this->createForm(ContractType::class, $contract);
@@ -134,8 +134,6 @@ class ContractController extends AbstractController
                     'id' => $contract->getGym()->getFranchise()->getId()
                 ], Response::HTTP_SEE_OTHER);
             }
-            
-
         }
 
         // VIEW //

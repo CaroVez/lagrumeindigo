@@ -24,6 +24,7 @@
                         <li class="menu-item"><a class="menu-link {% block becomeActive %}{% endblock %}" href="{{ path('become') }}">devenez franchisé</a></li>
                     {% endif %}
 
+                    {# menu when login #}
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <li class="menu-item"><a class="menu-link {% block accueilActive %}{% endblock %}" href="{{ path('home') }}">accueil</a></li>
                     {% endif %}

@@ -22,7 +22,7 @@ home:
     controller: App\Controller\HomeController::index
     methods:    GET
 
-## access by ROLE_ADMIN only, except two routes as mentioned below ##
+## access by ROLE_ADMIN only, except 3 routes as mentioned below ##
 ### USERS & REGISTER ###
 user_admin_new:
     path: /admin/user/new
@@ -39,7 +39,7 @@ user_gym_new:
     controller: App\Controller\RegistrationController::registerGym
     methods:    GET|POST
 
-user_edit:
+user_edit: ## access by ROLE_FRANCHISE & ROLE_GYM ##
     path: /user/{id}/edit
     controller: App\Controller\UserController::edit
     requirements:
