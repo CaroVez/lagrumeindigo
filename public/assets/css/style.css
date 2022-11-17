@@ -159,7 +159,7 @@ header nav {
   transition: 0.3s;  
   background-color: #002B5B;
 }
-.welcome span, .welcome a {
+.welcome span {
   color: #F1EEE9;
   font-family: 'Architects_Daughter';
 }
