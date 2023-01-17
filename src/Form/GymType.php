@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Gym;
+use App\Repository\UserRepository;
+use App\Repository\FranchiseRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,10 +18,16 @@ class GymType extends AbstractType
     {
         $builder
             ->add('user', null, [
-                'label' => 'le nouveau gérant créé'
+                'label' => 'le nouveau gérant créé',
+                'query_builder' => function(UserRepository $repository) { 
+                    return $repository->createQueryBuilder('u')->orderBy('u.id', 'DESC' );
+                }
             ])
             ->add('franchise', null, [
-                'label' => 'la franchise à laquelle elle appartient'
+                'label' => 'la franchise à laquelle elle appartient',
+                //'query_builder' => function(FranchiseRepository $repository) { 
+                //    return $repository->createQueryBuilder('f')->orderBy('f.id', 'DESC' );
+                //}
             ])
             ->add('name', TextType::class, [
                 'label' => 'nom'

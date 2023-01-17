@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Contract;
+use App\Repository\FranchiseRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +15,10 @@ class ContractFranchiseType extends AbstractType
     {
         $builder
             ->add('franchise', null, [
-                'label' => 'la nouvelle franchise créée'
+                'label' => 'la nouvelle franchise créée',
+                'query_builder' => function(FranchiseRepository $repository) { 
+                    return $repository->createQueryBuilder('f')->orderBy('f.id', 'DESC' );
+                }
             ])
 
             ->add('sendNewsletter', CheckboxType::class, [

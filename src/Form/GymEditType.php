@@ -15,6 +15,9 @@ class GymEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('franchise', null, [
+                'label' => 'la franchise à laquelle elle appartient',
+            ])
             ->add('name', TextType::class, [
                 'label' => 'nom',
                 'required' => false

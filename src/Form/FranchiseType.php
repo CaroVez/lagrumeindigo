@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Franchise;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,7 +16,10 @@ class FranchiseType extends AbstractType
     {
         $builder
             ->add('user', null, [
-                'label' => 'le nouveau directeur créé'
+                'label' => 'le nouveau directeur créé',
+                'query_builder' => function(UserRepository $repository) { 
+                    return $repository->createQueryBuilder('u')->orderBy('u.id', 'DESC' );
+                }
             ])
             ->add('name', TextType::class, [
                 'label' => 'nom'

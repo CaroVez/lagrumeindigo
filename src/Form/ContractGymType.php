@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Contract;
+use App\Repository\GymRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,12 +15,16 @@ class ContractGymType extends AbstractType
     {
         $builder
             ->add('gym', null, [
-                'label' => 'la nouvelle salle de sport créée'
+                'label' => 'la nouvelle salle de sport créée',
+                'query_builder' => function(GymRepository $repository) { 
+                    return $repository->createQueryBuilder('g')->orderBy('g.id', 'DESC' );
+                }
             ])
-            
+
             ->add('sendNewsletter', CheckboxType::class, [
                 'label' => 'envoyer des bulletins de nouvelles',
                 'required' => false
+                //'disabled' => true
             ])
             ->add('teamPlanning', CheckboxType::class, [
                 'label' => 'gestion des horaires d\'équipe',
