@@ -124,6 +124,6 @@ class UserController extends AbstractController
         }
 
         // REDIRECT after submit //
-        return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('franchise_index', [], Response::HTTP_SEE_OTHER);
     }
 }

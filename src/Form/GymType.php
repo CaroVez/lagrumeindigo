@@ -25,9 +25,9 @@ class GymType extends AbstractType
             ])
             ->add('franchise', null, [
                 'label' => 'la franchise à laquelle elle appartient',
-                //'query_builder' => function(FranchiseRepository $repository) { 
-                //    return $repository->createQueryBuilder('f')->orderBy('f.id', 'DESC' );
-                //}
+                'query_builder' => function(FranchiseRepository $repository) { 
+                    return $repository->createQueryBuilder('f')->orderBy('f.id', 'DESC' );
+                }
             ])
             ->add('name', TextType::class, [
                 'label' => 'nom'
